@@ -1,8 +1,7 @@
 package com.drf.wy.web.system.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -60,25 +59,28 @@ public class SysUser implements Serializable , UserDetails {
     private String password;
 
     @ApiModelProperty("账号是否可用；0不可用，1可用")
-    private Boolean enabled;
+    private Boolean enabled = true;
 
     @ApiModelProperty("账户是否锁定;0锁定，1未锁定")
-    private Boolean accountNonLocked;
+    private Boolean accountNonLocked = true;
 
     @ApiModelProperty("账号是否过期;0过期，1未过期")
-    private Boolean accountNonExpired;
+    private Boolean accountNonExpired = true;
 
     @ApiModelProperty("密码是否过期;0过期，1未过期")
-    private Boolean credentialsNonExpired;
+    private Boolean credentialsNonExpired = true;
 
     @ApiModelProperty("假删字段；0删除，1未删除")
-    private Integer deleted;
+    @TableLogic
+    private Integer deleted ;
 
     @ApiModelProperty("创建时间")
+    @TableField(fill = FieldFill.INSERT)
     @JsonIgnore
     private LocalDateTime createTime;
 
     @ApiModelProperty("更新时间")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     @JsonIgnore
     private LocalDateTime updateTime;
 

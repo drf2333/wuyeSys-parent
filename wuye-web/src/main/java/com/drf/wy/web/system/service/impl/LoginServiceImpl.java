@@ -126,8 +126,6 @@ public class LoginServiceImpl implements LoginService {
         String token = jwtUtils.generateToken(userId, username, userType);
         Map<String, String> map = new HashMap<>();
         map.put("token", token);
-
-
         return Result.success(map);
     }
 

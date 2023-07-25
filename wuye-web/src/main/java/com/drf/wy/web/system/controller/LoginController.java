@@ -57,7 +57,6 @@ public class LoginController {
                 captchacode,
                 RedisConstant.CAPTCHA_EXPIRE_TIME,
                 TimeUnit.SECONDS
-
         );
         //将验证码图片和id响应给客户端
         Map<String,String> map  =new HashMap<>();
