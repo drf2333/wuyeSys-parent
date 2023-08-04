@@ -38,9 +38,14 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         //获取token
+      //  String token = request.getHeader("token");
         String token = request.getHeader("authorization");
+
+        if (!StringUtils.hasText(token)){
+             token = request.getParameter("authorization");
+        }
         if (!StringUtils.hasText(token)) {
-            //放行
+            //token 为空直接放行
             filterChain.doFilter(request, response);
             //防止过滤连执行完在执行过滤器
             return;
@@ -51,8 +56,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         Integer userType;
 
         try {
-            userId = jwtUtils.getUserTypeFromToken(token);
-            userType = jwtUtils.getUserIdFromToken(token);
+            userType= jwtUtils.getUserTypeFromToken(token);
+            userId= jwtUtils.getUserIdFromToken(token);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("token 非法");
@@ -66,6 +71,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
         //判断用户类型，取出对应用户信息,刷新缓存
         if (SystemConstant.USER_TYPE_WUZHU == userType) {
+            System.out.println("usertype ==="+userType);
+            System.out.println("redis的名字"+RedisConstant.LOGIN_SYSTEM_USER_PRE + userId);
             SysUser sysUser = (SysUser) redisTemplate.opsForValue().get(RedisConstant.LOGIN_SYSTEM_USER_PRE + userId);
             if (Objects.isNull(sysUser)) {
                 throw new RuntimeException("用户未登录");
@@ -78,7 +85,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             //放行
             filterChain.doFilter(request, response);
-        } else {
+        } else
+        {
             LiveUser liveUser = (LiveUser) redisTemplate.opsForValue().get(RedisConstant.LOGIN_LIVE_USER_PRE + userId);
             if (Objects.isNull(liveUser)) {
                 throw new RuntimeException("用户未登录");

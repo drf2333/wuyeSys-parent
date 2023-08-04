@@ -15,12 +15,14 @@ import javax.servlet.Filter;
  */
 @Configuration
 
+/*将自定义的JwtAuthenticationTokenFilter过滤器注册到Servlet容器中。*/
 public class WebConfig {
     @Bean
     public FilterRegistrationBean filterRegistrationBean(JwtAuthenticationTokenFilter
                                                                      jwtAuthenticationTokenFilter){
         FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>(jwtAuthenticationTokenFilter);
 
+        //false表示不启用该过滤器
         filterRegistrationBean.setEnabled(false);
         return filterRegistrationBean;
 

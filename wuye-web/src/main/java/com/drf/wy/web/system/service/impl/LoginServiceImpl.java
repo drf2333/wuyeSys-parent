@@ -1,6 +1,5 @@
 package com.drf.wy.web.system.service.impl;
 
-
 import com.drf.wy.utils.JwtUtils;
 import com.drf.wy.utils.RedisConstant;
 import com.drf.wy.utils.Result;
@@ -16,7 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -45,8 +43,11 @@ public class LoginServiceImpl implements LoginService {
         //2.校验用户名密码是否正确
         Authentication authentication = validUsernameAndPassword(loginParam.getUsername(), loginParam.getUserType(), loginParam.getPassword());
         //3.用户信息存入redis，并响应token数据
-
-
+        System.out.println("username=="+loginParam.getUsername());
+        System.out.println("userType=="+loginParam.getUserType());
+        System.out.println("password=="+loginParam.getPassword());
+        System.out.println("CaptchaCode=="+loginParam.getCaptchaCode());
+        System.out.println("CaptchaId=="+loginParam.getCaptchaId());
         return responseToken(loginParam.getUserType(), authentication);
     }
 
@@ -62,7 +63,6 @@ public class LoginServiceImpl implements LoginService {
             SysUser sysUser = (SysUser) principal;
             redisTemplate.delete(RedisConstant.LOGIN_SYSTEM_USER_PRE + sysUser.getUserId());
         }
-
         return Result.success();
     }
 
@@ -92,10 +92,10 @@ public class LoginServiceImpl implements LoginService {
 
     //响应token
     private Result responseToken(Integer userType, Authentication authentication) {
-        int userId;
+        Integer userId;
         String username;
         //如果登录的用户是业主，将业主的信息存入redis，并且响应token数据
-        if (userType == SystemConstant.USER_TYPE_YEZHU) {
+        if (userType == SystemConstant.USER_TYPE_YEZHU) {//sys:1 live:0 此处判断YEZHU 0
             //获取业主信息
             LiveUser liveUser = (LiveUser) authentication.getPrincipal();
             userId = liveUser.getUserId();
@@ -114,7 +114,6 @@ public class LoginServiceImpl implements LoginService {
             userId = sysUser.getUserId();
             username = sysUser.getUsername();
             //用户信息存入redis
-
             redisTemplate.opsForValue().set(
                     RedisConstant.LOGIN_SYSTEM_USER_PRE + userId,
                     sysUser,
@@ -126,6 +125,7 @@ public class LoginServiceImpl implements LoginService {
         String token = jwtUtils.generateToken(userId, username, userType);
         Map<String, String> map = new HashMap<>();
         map.put("token", token);
+       // System.out.println("登录====="+map);
         return Result.success(map);
     }
 

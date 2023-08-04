@@ -18,7 +18,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +61,8 @@ public class LoginController {
         Map<String,String> map  =new HashMap<>();
         map.put("captchaId",captchaId);
         map.put("imageBase64",imageBase64);
+        System.out.println("LoginController-captchaId=="+captchaId);
+        System.out.println("LoginController-imageBase64=="+imageBase64);
         return Result.success(map);
 
     }
@@ -93,11 +94,14 @@ public class LoginController {
     public Result getInfo(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
+
         if (principal instanceof SysUser){
             SysUser sysUser = (SysUser) principal;
+
             return Result.success(sysUser);
         }else {
             LiveUser liveUser = (LiveUser) principal;
+
             return Result.success(liveUser);
         }
 

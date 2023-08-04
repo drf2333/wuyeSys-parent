@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @SpringBootApplication
 @CrossOrigin
 public class WyApplication {
+
+
     public static void main(String[] args) {
         SpringApplication.run(WyApplication.class);
 

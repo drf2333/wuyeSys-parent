@@ -59,16 +59,16 @@ public class SysUser implements Serializable , UserDetails {
     private String password;
 
     @ApiModelProperty("账号是否可用；0不可用，1可用")
-    private Boolean enabled = true;
+    private boolean enabled = true;
 
     @ApiModelProperty("账户是否锁定;0锁定，1未锁定")
-    private Boolean accountNonLocked = true;
+    private boolean accountNonLocked = true;
 
     @ApiModelProperty("账号是否过期;0过期，1未过期")
-    private Boolean accountNonExpired = true;
+    private boolean accountNonExpired = true;
 
     @ApiModelProperty("密码是否过期;0过期，1未过期")
-    private Boolean credentialsNonExpired = true;
+    private boolean credentialsNonExpired = true;
 
     @ApiModelProperty("假删字段；0删除，1未删除")
     @TableLogic
@@ -90,23 +90,5 @@ public class SysUser implements Serializable , UserDetails {
         return null;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

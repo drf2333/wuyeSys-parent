@@ -20,6 +20,7 @@ import java.io.IOException;
  */
 @Component
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
+    //在认证失败时，返回给客户端一个未授权的JSON响应结果，以提醒客户端认证失败。
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
 

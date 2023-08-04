@@ -22,10 +22,13 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
         //接受任意域名请求
         config.addAllowedOrigin("*");
+
         //不支持提交cookie数据
         config.setAllowCredentials(false);
+
         //绑定请求头信息，使用通配符*接受任意字段
         config.addAllowedHeader("*");
+
         //支持任意提交方法
         config.addAllowedMethod("*");
         UrlBasedCorsConfigurationSource configSource = new UrlBasedCorsConfigurationSource();

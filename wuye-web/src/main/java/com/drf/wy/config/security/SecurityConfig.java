@@ -41,7 +41,7 @@ public class SecurityConfig {
     public DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
         auth.setUserDetailsService(userDetailsService);
-        //System.out.println(passwordEncoder().encode("123456"));
+        System.out.println(passwordEncoder().encode("123456"));
         auth.setPasswordEncoder(passwordEncoder());
         return auth;
     }
@@ -56,7 +56,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         //关闭csrf()攻击防护
         http.csrf().disable();
-        //允许跨域
+        //允许跨域,允许嵌入 iframe 窗口
         http.cors();
         //关闭iframe窗口防护
         http.headers().frameOptions().disable();
@@ -90,5 +90,4 @@ public class SecurityConfig {
                     "/v2/api-docs/**");
         };
     }
-
 }

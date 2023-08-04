@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 public class MyBatisPlusHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
+        //执行插入操作的时候，自动填充某些字段的值
         log.info("start insert fill ....");
         this.setFieldValByName("createTime", LocalDateTime.now(), metaObject);
         this.setFieldValByName("updateTime",LocalDateTime.now(),metaObject);

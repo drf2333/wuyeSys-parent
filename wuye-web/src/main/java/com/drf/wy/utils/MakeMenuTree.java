@@ -1,6 +1,4 @@
 package com.drf.wy.utils;
-
-
 import com.drf.wy.web.system.entity.SysMenu;
 import org.springframework.beans.BeanUtils;
 
